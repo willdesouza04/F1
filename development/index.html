@@ -1,0 +1,1162 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cliente Python e CLI para API OpenF1">
+      
+      
+        <meta name="author" content="William Lacerda de Souza">
+      
+      
+      
+        <link rel="prev" href="../api-reference/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Desenvolvimento - Cliente de Dados F1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guia-de-desenvolvimento" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Cliente de Dados F1" class="md-header__button md-logo" aria-label="Cliente de Dados F1" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cliente de Dados F1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Desenvolvimento
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="light" data-md-color-primary="blue" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="dark" data-md-color-primary="blue" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Cliente de Dados F1" class="md-nav__button md-logo" aria-label="Cliente de Dados F1" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cliente de Dados F1
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Começando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referência da API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desenvolvimento
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desenvolvimento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pré-requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração Inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo de Desenvolvimento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fluxo de Desenvolvimento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estilo-de-codigo-e-linting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estilo de Código e Linting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de Validação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-do-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura do Projeto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adicionando-um-novo-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionando um Novo Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo de Git
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comandos Comuns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solucao-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solução de Problemas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solução de Problemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#os-testes-falham-com-erros-de-importacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Os testes falham com erros de importação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linting-mostra-erros-que-nao-consigo-corrigir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linting mostra erros que não consigo corrigir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-compilacao-do-mkdocs-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A compilação do MkDocs falha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cobertura-abaixo-de-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cobertura abaixo de 50%
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribuindo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribuindo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pré-requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração Inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo de Desenvolvimento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fluxo de Desenvolvimento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estilo-de-codigo-e-linting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estilo de Código e Linting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de Validação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-do-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura do Projeto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adicionando-um-novo-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionando um Novo Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo de Git
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comandos Comuns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solucao-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solução de Problemas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solução de Problemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#os-testes-falham-com-erros-de-importacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Os testes falham com erros de importação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linting-mostra-erros-que-nao-consigo-corrigir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linting mostra erros que não consigo corrigir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-compilacao-do-mkdocs-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A compilação do MkDocs falha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cobertura-abaixo-de-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cobertura abaixo de 50%
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribuindo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribuindo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="guia-de-desenvolvimento">Guia de Desenvolvimento</h1>
+<h2 id="configuracao">Configuração</h2>
+<h3 id="pre-requisitos">Pré-requisitos</h3>
+<ul>
+<li>Python 3.13+</li>
+<li>Pyenv (para gerenciamento de versão)</li>
+<li>Poetry (para gerenciamento de dependências)</li>
+</ul>
+<h3 id="configuracao-inicial">Configuração Inicial</h3>
+<ol>
+<li>
+<p><strong>Verifique a versão do Python:</strong>
+   <div class="highlight"><pre><span></span><code>python<span class="w"> </span>--version<span class="w">  </span><span class="c1"># Deve ser Python 3.13.x</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Instale as dependências:</strong>
+   <div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>install
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Ative o ambiente virtual:</strong>
+   <div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>shell
+</code></pre></div>
+   Ou execute comandos com prefixo <code>poetry run</code>.</p>
+</li>
+</ol>
+<h2 id="fluxo-de-desenvolvimento">Fluxo de Desenvolvimento</h2>
+<h3 id="estilo-de-codigo-e-linting">Estilo de Código e Linting</h3>
+<p>Este projeto usa <strong>Ruff</strong> para linting e formatação.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verificar código</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Corrigir automaticamente problemas</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>--fix<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Formatar código</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>format<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Verificar formatação sem fazer mudanças</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>format<span class="w"> </span>--check<span class="w"> </span>src/<span class="w"> </span>tests/
+</code></pre></div>
+<h3 id="testes">Testes</h3>
+<p>Os testes são gerenciados com <strong>Pytest</strong> e <strong>pytest-cov</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Executar todos os testes</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># Executar com relatório de cobertura</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>src/f1<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+
+<span class="c1"># Executar arquivo de teste específico</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_client.py
+
+<span class="c1"># Executar com saída detalhada</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+
+<span class="c1"># Abrir relatório de cobertura em HTML</span>
+<span class="c1"># Após executar os testes, abra htmlcov/index.html em um navegador</span>
+</code></pre></div>
+<p><strong>Requisitos de Cobertura:</strong>
+- Mínimo: 50% do código em <code>src/f1/</code>
+- Atualmente: Verificar a saída do <code>pytest</code> para a porcentagem exata</p>
+<h3 id="documentacao">Documentação</h3>
+<p>A documentação usa <strong>MkDocs Material</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Compilar e servir localmente (modo observação)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>task<span class="w"> </span>docs
+
+<span class="c1"># Compilar site estático</span>
+poetry<span class="w"> </span>run<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+
+<span class="c1"># Verificar erros/avisos</span>
+poetry<span class="w"> </span>run<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+</code></pre></div>
+<p>Os arquivos de documentação estão em <code>docs/</code> (formato Markdown).</p>
+<h2 id="checklist-de-validacao">Checklist de Validação</h2>
+<p>Antes de fazer commit, execute esta sequência completa de validação:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Verifique a versão do Python</span>
+python<span class="w"> </span>--version
+
+<span class="c1"># 2. Verifique o ambiente do Poetry</span>
+poetry<span class="w"> </span>--version
+poetry<span class="w"> </span>show
+
+<span class="c1"># 3. Lint e formatação</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src/<span class="w"> </span>tests/
+poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>format<span class="w"> </span>--check<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># 4. Execute os testes</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># 5. Verifique a cobertura (deve ser &gt;= 50%)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>src/f1<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+
+<span class="c1"># 6. Compile a documentação</span>
+poetry<span class="w"> </span>run<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+</code></pre></div>
+<p>Todas as etapas devem passar antes de fazer commit.</p>
+<h2 id="estrutura-do-projeto">Estrutura do Projeto</h2>
+<div class="highlight"><pre><span></span><code>src/f1/                 # Pacote principal
+├── __init__.py        # Inicialização do pacote
+├── client.py          # OpenF1Client
+├── cli.py             # Comandos da CLI
+└── exceptions.py      # Exceções customizadas
+
+tests/                 # Suite de testes
+├── conftest.py        # Fixtures do Pytest
+├── test_client.py     # Testes do cliente
+└── test_cli.py        # Testes da CLI
+</code></pre></div>
+<h2 id="adicionando-um-novo-endpoint">Adicionando um Novo Endpoint</h2>
+<ol>
+<li>
+<p><strong>Adicione método ao <code>OpenF1Client</code></strong> em <code>src/f1/client.py</code>:
+   <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_my_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">filters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Obtenha meus dados da API."""</span>
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/my_data"</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"key"</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">filters</span><span class="p">}</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Adicione comando CLI correspondente</strong> em <code>src/f1/cli.py</code>:
+   <div class="highlight"><pre><span></span><code><span class="nd">@main</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"--key"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_data</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Busque meus dados."""</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">OpenF1Client</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_my_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Escreva testes</strong> em <code>tests/test_client.py</code> e <code>tests/test_cli.py</code></p>
+</li>
+<li>
+<p><strong>Atualize a documentação</strong> em <code>docs/</code></p>
+</li>
+<li>
+<p><strong>Garanta cobertura &gt;= 50%</strong></p>
+</li>
+</ol>
+<h2 id="fluxo-de-git">Fluxo de Git</h2>
+<ol>
+<li>Crie uma branch para seu trabalho</li>
+<li>Faça as mudanças e passe em todas as verificações de validação</li>
+<li>Faça commit com mensagens claras</li>
+<li>Faça push e crie um PR</li>
+<li>Garanta que CI/CD passe</li>
+</ol>
+<h2 id="comandos-comuns">Comandos Comuns</h2>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>poetry install</code></td>
+<td>Instalar todas as dependências</td>
+</tr>
+<tr>
+<td><code>poetry run pytest</code></td>
+<td>Executar testes</td>
+</tr>
+<tr>
+<td><code>poetry run ruff check src/ tests/</code></td>
+<td>Verificar estilo do código</td>
+</tr>
+<tr>
+<td><code>poetry run ruff format src/ tests/</code></td>
+<td>Formatar código</td>
+</tr>
+<tr>
+<td><code>poetry run task docs</code></td>
+<td>Visualizar documentação localmente</td>
+</tr>
+<tr>
+<td><code>poetry show</code></td>
+<td>Listar todas as dependências</td>
+</tr>
+<tr>
+<td><code>poetry lock</code></td>
+<td>Atualizar poetry.lock</td>
+</tr>
+</tbody>
+</table>
+<h2 id="solucao-de-problemas">Solução de Problemas</h2>
+<h3 id="os-testes-falham-com-erros-de-importacao">Os testes falham com erros de importação</h3>
+<p>Certifique-se de que o ambiente Poetry está ativado:
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>shell
+<span class="c1"># Então execute os testes</span>
+pytest
+</code></pre></div></p>
+<h3 id="linting-mostra-erros-que-nao-consigo-corrigir">Linting mostra erros que não consigo corrigir</h3>
+<p>Alguns erros podem precisar de revisão manual. Leia a documentação do Ruff:
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>rule<span class="w"> </span>&lt;RULE_CODE&gt;
+</code></pre></div></p>
+<h3 id="a-compilacao-do-mkdocs-falha">A compilação do MkDocs falha</h3>
+<p>Verifique links quebrados ou Markdown inválido:
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict<span class="w"> </span>-v
+</code></pre></div></p>
+<h3 id="cobertura-abaixo-de-50">Cobertura abaixo de 50%</h3>
+<p>Adicione mais testes cobrindo as linhas não cobertas. Verifique o relatório de cobertura:
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>src/f1<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+<span class="c1"># Ou visualize o relatório em HTML:</span>
+<span class="c1"># htmlcov/index.html</span>
+</code></pre></div></p>
+<h2 id="contribuindo">Contribuindo</h2>
+<p>Todas as contribuições devem:
+- Passar no linting (<code>ruff check</code>)
+- Passar na formatação (<code>ruff format --check</code>)
+- Passar nos testes (<code>pytest</code>)
+- Manter &gt;=50% de cobertura
+- Atualizar a documentação</p>
+<p>Veja o README principal para as diretrizes de contribuição.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
