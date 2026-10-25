@@ -15,6 +15,7 @@ packages = [{include = "f1", from = "src"}]
 python = "^3.13"
 requests = ">=2.31.0"
 click = ">=8.0"
+flask = "^3.1.3"
 
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.6.0"
@@ -22,9 +23,11 @@ pytest = ">=7.0"
 pytest-cov = ">=4.0"
 mkdocs = ">=1.5"
 mkdocs-material = ">=9.0"
+poethepoet = ">=0.24.0"
 
 [tool.poetry.scripts]
 f1 = "f1.cli:main"
+task = "task:main"
 
 [tool.ruff]
 line-length = 88
@@ -40,3 +43,6 @@ addopts = "--cov=src/f1 --cov-report=term-missing --cov-report=html --cov-fail-u
 [tool.coverage.run]
 source = ["src/f1"]
 branch = true
+
+[tool.poe.tasks]
+docs = "mkdocs serve --open"

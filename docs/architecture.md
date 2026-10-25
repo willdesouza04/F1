@@ -1,49 +1,49 @@
-# Architecture
+# Arquitetura
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 f1/
-├── src/f1/                 # Main package
-│   ├── __init__.py         # Package exports
-│   ├── client.py           # OpenF1Client HTTP client
-│   ├── cli.py              # Click CLI commands
-│   └── exceptions.py       # Custom exceptions
-├── tests/                  # Test suite
-│   ├── conftest.py         # Pytest fixtures
-│   ├── test_client.py      # Client tests
-│   └── test_cli.py         # CLI tests
-├── docs/                   # Documentation (Markdown)
-├── pyproject.toml          # Poetry configuration
-├── mkdocs.yml              # MkDocs configuration
-├── .python-version         # Pyenv Python version
-├── .gitignore              # Git ignore rules
-└── README.md               # Project overview
+├── src/f1/                 # Pacote principal
+│   ├── __init__.py         # Exportações do pacote
+│   ├── client.py           # Cliente HTTP OpenF1Client
+│   ├── cli.py              # Comandos CLI do Click
+│   └── exceptions.py       # Exceções customizadas
+├── tests/                  # Suite de testes
+│   ├── conftest.py         # Fixtures do Pytest
+│   ├── test_client.py      # Testes do cliente
+│   └── test_cli.py         # Testes da CLI
+├── docs/                   # Documentação (Markdown)
+├── pyproject.toml          # Configuração do Poetry
+├── mkdocs.yml              # Configuração do MkDocs
+├── .python-version         # Versão Python do Pyenv
+├── .gitignore              # Regras de ignore do Git
+└── README.md               # Visão geral do projeto
 ```
 
-## Core Modules
+## Módulos Principais
 
 ### `f1.client.OpenF1Client`
 
-Synchronous HTTP client for the OpenF1 API.
+Cliente HTTP síncrono para a API OpenF1.
 
-**Key Methods:**
+**Métodos Principais:**
 - `get_meetings(year=None, **filters)` → `list[dict]`
 - `get_drivers(session_key, **filters)` → `list[dict]`
 - `get_laps(session_key, **filters)` → `list[dict]`
 - `get_car_data(session_key, **filters)` → `list[dict]`
 - `get_sessions(year=None, **filters)` → `list[dict]`
 
-**Constructor:**
+**Construtor:**
 ```python
 OpenF1Client(base_url="https://api.openf1.org/v1", timeout=30)
 ```
 
 ### `f1.cli`
 
-Click-based command-line interface.
+Interface de linha de comando baseada em Click.
 
-**Commands:**
+**Comandos:**
 - `f1 meetings [--year YEAR]`
 - `f1 drivers --session SESSION_KEY [--limit N]`
 - `f1 laps --session SESSION_KEY [--driver DRIVER_NUMBER] [--limit N]`
@@ -52,19 +52,19 @@ Click-based command-line interface.
 
 ### `f1.exceptions`
 
-Error hierarchy for API and network errors.
+Hierarquia de erros para erros de API e rede.
 
-**Exceptions:**
-- `OpenF1Error` — Base exception
-- `NetworkError` — Connection/timeout issues
-- `APIError` — 4xx/5xx HTTP errors
-- `NotFoundError` — 404 responses
+**Exceções:**
+- `OpenF1Error` — Exceção base
+- `NetworkError` — Problemas de conexão/timeout
+- `APIError` — Erros HTTP 4xx/5xx
+- `NotFoundError` — Respostas 404
 
-## Data Model
+## Modelo de Dados
 
-Data is returned as plain Python dictionaries (JSON). No dataclass or Pydantic models are used initially to keep the library lightweight.
+Os dados são retornados como dicionários Python simples (JSON). Nenhum modelo Pydantic ou dataclass é usado inicialmente para manter a biblioteca leve.
 
-**Example Response:**
+**Resposta de Exemplo:**
 ```python
 {
     "meeting_key": 1204,
@@ -74,39 +74,39 @@ Data is returned as plain Python dictionaries (JSON). No dataclass or Pydantic m
 }
 ```
 
-## Design Decisions
+## Decisões de Design
 
-| Decision | Rationale |
-|----------|-----------|
-| Synchronous HTTP | Simple for v1, sufficient for most use cases |
-| Raw dicts/JSON | Minimal overhead, flexible for schema changes |
-| Click for CLI | Mature, well-documented, widely used |
-| Requests library | Stable, synchronous HTTP standard |
-| 50%+ test coverage | Validates core paths without exhaustiveness |
+| Decisão | Justificativa |
+|---------|---------------|
+| HTTP Síncrono | Simples para v1, suficiente para a maioria dos casos de uso |
+| Dicts/JSON brutos | Overhead mínimo, flexível para mudanças de esquema |
+| Click para CLI | Maduro, bem documentado, amplamente utilizado |
+| Biblioteca Requests | Estável, síncrono, padrão HTTP |
+| Cobertura de testes 50%+ | Valida caminhos principais sem exaustividade |
 
-## Data Flow
+## Fluxo de Dados
 
 ```
-User CLI Command
+Comando CLI do Usuário
       ↓
-Click Command Handler (cli.py)
+Manipulador de Comando Click (cli.py)
       ↓
-OpenF1Client method (client.py)
+Método OpenF1Client (client.py)
       ↓
-HTTP Request (requests library)
+Solicitação HTTP (biblioteca requests)
       ↓
-OpenF1 API
+API OpenF1
       ↓
-JSON Response
+Resposta JSON
       ↓
-Parse & return dict
+Analisar e retornar dict
       ↓
-Format & display (CLI) or return (library)
+Formatar e exibir (CLI) ou retornar (biblioteca)
 ```
 
-## Future Enhancements
+## Melhorias Futuras
 
-- **Async support** (httpx or aiohttp)
-- **Pydantic models** for type safety
-- **Response caching**
-- **Batch endpoints**
+- **Suporte assíncrono** (httpx ou aiohttp)
+- **Modelos Pydantic** para segurança de tipo
+- **Cache de resposta**
+- **Endpoints em lote**

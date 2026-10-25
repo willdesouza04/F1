@@ -1,225 +1,225 @@
-# Development Guide
+# Guia de Desenvolvimento
 
-## Setup
+## Configuração
 
-### Prerequisites
+### Pré-requisitos
 
 - Python 3.13+
-- Pyenv (for version management)
-- Poetry (for dependency management)
+- Pyenv (para gerenciamento de versão)
+- Poetry (para gerenciamento de dependências)
 
-### Initial Setup
+### Configuração Inicial
 
-1. **Verify Python version:**
+1. **Verifique a versão do Python:**
    ```bash
-   python --version  # Should be Python 3.13.x
+   python --version  # Deve ser Python 3.13.x
    ```
 
-2. **Install dependencies:**
+2. **Instale as dependências:**
    ```bash
    poetry install
    ```
 
-3. **Activate the virtual environment:**
+3. **Ative o ambiente virtual:**
    ```bash
    poetry shell
    ```
-   Or run commands prefixed with `poetry run`.
+   Ou execute comandos com prefixo `poetry run`.
 
-## Development Workflow
+## Fluxo de Desenvolvimento
 
-### Code Style & Linting
+### Estilo de Código e Linting
 
-This project uses **Ruff** for linting and formatting.
+Este projeto usa **Ruff** para linting e formatação.
 
 ```bash
-# Check code
+# Verificar código
 poetry run ruff check src/ tests/
 
-# Auto-fix issues
+# Corrigir automaticamente problemas
 poetry run ruff check --fix src/ tests/
 
-# Format code
+# Formatar código
 poetry run ruff format src/ tests/
 
-# Check formatting without changes
+# Verificar formatação sem fazer mudanças
 poetry run ruff format --check src/ tests/
 ```
 
-### Testing
+### Testes
 
-Tests are managed with **Pytest** and **pytest-cov**.
+Os testes são gerenciados com **Pytest** e **pytest-cov**.
 
 ```bash
-# Run all tests
+# Executar todos os testes
 poetry run pytest
 
-# Run with coverage report
+# Executar com relatório de cobertura
 poetry run pytest --cov=src/f1 --cov-report=term-missing
 
-# Run specific test file
+# Executar arquivo de teste específico
 poetry run pytest tests/test_client.py
 
-# Run with verbose output
+# Executar com saída detalhada
 poetry run pytest -v
 
-# Open HTML coverage report
-# After running tests, open htmlcov/index.html in a browser
+# Abrir relatório de cobertura em HTML
+# Após executar os testes, abra htmlcov/index.html em um navegador
 ```
 
-**Coverage Requirements:**
-- Minimum: 50% of `src/f1/` code
-- Currently: Check `pytest` output for exact percentage
+**Requisitos de Cobertura:**
+- Mínimo: 50% do código em `src/f1/`
+- Atualmente: Verificar a saída do `pytest` para a porcentagem exata
 
-### Documentation
+### Documentação
 
-Documentation uses **MkDocs Material**.
+A documentação usa **MkDocs Material**.
 
 ```bash
-# Build and serve locally (watch mode)
-poetry run mkdocs serve
+# Compilar e servir localmente (modo observação)
+poetry run task docs
 
-# Build static site
+# Compilar site estático
 poetry run mkdocs build --strict
 
-# Check for errors/warnings
+# Verificar erros/avisos
 poetry run mkdocs build --strict
 ```
 
-Documentation files are in `docs/` (Markdown format).
+Os arquivos de documentação estão em `docs/` (formato Markdown).
 
-## Validation Checklist
+## Checklist de Validação
 
-Before committing, run this full validation sequence:
+Antes de fazer commit, execute esta sequência completa de validação:
 
 ```bash
-# 1. Verify Python version
+# 1. Verifique a versão do Python
 python --version
 
-# 2. Check poetry environment
+# 2. Verifique o ambiente do Poetry
 poetry --version
 poetry show
 
-# 3. Lint and format
+# 3. Lint e formatação
 poetry run ruff check src/ tests/
 poetry run ruff format --check src/ tests/
 
-# 4. Run tests
+# 4. Execute os testes
 poetry run pytest
 
-# 5. Check coverage (must be >= 50%)
+# 5. Verifique a cobertura (deve ser >= 50%)
 poetry run pytest --cov=src/f1 --cov-report=term-missing
 
-# 6. Build docs
+# 6. Compile a documentação
 poetry run mkdocs build --strict
 ```
 
-All steps must pass before committing.
+Todas as etapas devem passar antes de fazer commit.
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
-src/f1/                 # Main package
-├── __init__.py        # Package initialization
+src/f1/                 # Pacote principal
+├── __init__.py        # Inicialização do pacote
 ├── client.py          # OpenF1Client
-├── cli.py             # CLI commands
-└── exceptions.py      # Custom exceptions
+├── cli.py             # Comandos da CLI
+└── exceptions.py      # Exceções customizadas
 
-tests/                 # Test suite
-├── conftest.py        # Pytest fixtures
-├── test_client.py     # Client tests
-└── test_cli.py        # CLI tests
+tests/                 # Suite de testes
+├── conftest.py        # Fixtures do Pytest
+├── test_client.py     # Testes do cliente
+└── test_cli.py        # Testes da CLI
 ```
 
-## Adding a New Endpoint
+## Adicionando um Novo Endpoint
 
-1. **Add method to `OpenF1Client`** in `src/f1/client.py`:
+1. **Adicione método ao `OpenF1Client`** em `src/f1/client.py`:
    ```python
    def get_my_data(self, key: int, **filters) -> list[dict]:
-       """Get my data from the API."""
+       """Obtenha meus dados da API."""
        endpoint = f"/my_data"
        params = {"key": key, **filters}
        return self._fetch(endpoint, params)
    ```
 
-2. **Add corresponding CLI command** in `src/f1/cli.py`:
+2. **Adicione comando CLI correspondente** em `src/f1/cli.py`:
    ```python
    @main.command()
    @click.option("--key", type=int, required=True)
    def my_data(key):
-       """Fetch my data."""
+       """Busque meus dados."""
        client = OpenF1Client()
        data = client.get_my_data(key)
        click.echo(json.dumps(data, indent=2))
    ```
 
-3. **Write tests** in `tests/test_client.py` and `tests/test_cli.py`
+3. **Escreva testes** em `tests/test_client.py` e `tests/test_cli.py`
 
-4. **Update documentation** in `docs/`
+4. **Atualize a documentação** em `docs/`
 
-5. **Ensure coverage >= 50%**
+5. **Garanta cobertura >= 50%**
 
-## Git Workflow
+## Fluxo de Git
 
-1. Create a branch for your work
-2. Make changes and pass all validation checks
-3. Commit with clear messages
-4. Push and create a PR
-5. Ensure CI/CD passes
+1. Crie uma branch para seu trabalho
+2. Faça as mudanças e passe em todas as verificações de validação
+3. Faça commit com mensagens claras
+4. Faça push e crie um PR
+5. Garanta que CI/CD passe
 
-## Common Commands
+## Comandos Comuns
 
-| Command | Purpose |
-|---------|---------|
-| `poetry install` | Install all dependencies |
-| `poetry run pytest` | Run tests |
-| `poetry run ruff check src/ tests/` | Lint code |
-| `poetry run ruff format src/ tests/` | Format code |
-| `poetry run mkdocs serve` | View docs locally |
-| `poetry show` | List all dependencies |
-| `poetry lock` | Update poetry.lock |
+| Comando | Propósito |
+|---------|-----------|
+| `poetry install` | Instalar todas as dependências |
+| `poetry run pytest` | Executar testes |
+| `poetry run ruff check src/ tests/` | Verificar estilo do código |
+| `poetry run ruff format src/ tests/` | Formatar código |
+| `poetry run task docs` | Visualizar documentação localmente |
+| `poetry show` | Listar todas as dependências |
+| `poetry lock` | Atualizar poetry.lock |
 
-## Troubleshooting
+## Solução de Problemas
 
-### Tests fail with import errors
+### Os testes falham com erros de importação
 
-Ensure Poetry environment is activated:
+Certifique-se de que o ambiente Poetry está ativado:
 ```bash
 poetry shell
-# Then run tests
+# Então execute os testes
 pytest
 ```
 
-### Linting shows errors I can't fix
+### Linting mostra erros que não consigo corrigir
 
-Some errors may need manual review. Read the Ruff documentation:
+Alguns erros podem precisar de revisão manual. Leia a documentação do Ruff:
 ```bash
 poetry run ruff rule <RULE_CODE>
 ```
 
-### MkDocs build fails
+### A compilação do MkDocs falha
 
-Check for broken links or invalid Markdown:
+Verifique links quebrados ou Markdown inválido:
 ```bash
 poetry run mkdocs build --strict -v
 ```
 
-### Coverage below 50%
+### Cobertura abaixo de 50%
 
-Add more tests covering the uncovered lines. Check the coverage report:
+Adicione mais testes cobrindo as linhas não cobertas. Verifique o relatório de cobertura:
 ```bash
 poetry run pytest --cov=src/f1 --cov-report=term-missing
-# Or view HTML report:
+# Ou visualize o relatório em HTML:
 # htmlcov/index.html
 ```
 
-## Contributing
+## Contribuindo
 
-All contributions must:
-- Pass linting (`ruff check`)
-- Pass formatting (`ruff format --check`)
-- Pass tests (`pytest`)
-- Maintain >=50% coverage
-- Update documentation
+Todas as contribuições devem:
+- Passar no linting (`ruff check`)
+- Passar na formatação (`ruff format --check`)
+- Passar nos testes (`pytest`)
+- Manter >=50% de cobertura
+- Atualizar a documentação
 
-See the main README for contribution guidelines.
+Veja o README principal para as diretrizes de contribuição.

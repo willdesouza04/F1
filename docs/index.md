@@ -1,35 +1,35 @@
-# F1 Data Client
+# Cliente de Dados F1
 
-Welcome to the F1 Data Client documentation! This is a Python library and command-line tool for accessing historical Formula 1 data from the [OpenF1 API](https://www.openf1.org/).
+Bem-vindo à documentação do Cliente de Dados F1! Esta é uma biblioteca Python e ferramenta de linha de comando para acessar dados históricos da Fórmula 1 da [API OpenF1](https://www.openf1.org/).
 
-## Features
+## Funcionalidades
 
-- **Synchronous HTTP Client**: Simple, synchronous wrapper around the OpenF1 API
-- **CLI Tool**: Query F1 data directly from your terminal
-- **Raw JSON Data**: Work with dictionaries and JSON directly — no heavy schemas
-- **Python 3.13+**: Built for the latest Python version
-- **Fully Tested**: 50%+ test coverage
+- **Cliente HTTP Síncrono**: Um wrapper simples e síncrono ao redor da API OpenF1
+- **Ferramenta CLI**: Consulte dados de F1 diretamente do seu terminal
+- **Dados JSON Brutos**: Trabalhe com dicionários e JSON diretamente — sem esquemas pesados
+- **Python 3.13+**: Construído para a versão mais recente do Python
+- **Totalmente Testado**: Cobertura de testes de 50%+
 
-## Quick Links
+## Links Rápidos
 
-- **[Getting Started](getting-started.md)** — Install and run your first query
-- **[Architecture](architecture.md)** — Understand the project structure
-- **[API Reference](api-reference.md)** — Full endpoint documentation
-- **[Development Guide](development.md)** — Set up your dev environment
+- **[Começando](getting-started.md)** — Instale e execute sua primeira consulta
+- **[Arquitetura](architecture.md)** — Entenda a estrutura do projeto
+- **[Referência da API](api-reference.md)** — Documentação completa dos endpoints
+- **[Guia de Desenvolvimento](development.md)** — Configure seu ambiente de desenvolvimento
 
-## What is OpenF1?
+## O que é OpenF1?
 
-[OpenF1](https://www.openf1.org/) provides historical Formula 1 data including:
-- Meetings (races and sessions)
-- Drivers and teams
-- Lap times and telemetry
-- Car data and positioning
+[OpenF1](https://www.openf1.org/) fornece dados históricos de Fórmula 1 incluindo:
+- Reuniões (corridas e sessões)
+- Pilotos e equipes
+- Tempos de volta e telemetria
+- Dados do carro e posicionamento
 
-Data is available from 2023 onwards.
+Os dados estão disponíveis a partir de 2023.
 
-## Quick Example
+## Exemplo Rápido
 
-=== "Library"
+=== "Biblioteca"
 
     ```python
     from f1 import OpenF1Client
@@ -48,4 +48,4 @@ Data is available from 2023 onwards.
 
 ---
 
-**Python 3.13+** | **MIT License** | [GitHub](https://github.com)
+**Python 3.13+** | **Licença MIT** | [GitHub](https://github.com)

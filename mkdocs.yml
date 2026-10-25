@@ -1,5 +1,5 @@
-site_name: F1 Data Client
-site_description: Python client and CLI for OpenF1 API
+site_name: Cliente de Dados F1
+site_description: Cliente Python e CLI para API OpenF1
 site_author: William Lacerda de Souza
 
 theme:
@@ -31,10 +31,10 @@ markdown_extensions:
   - pymdownx.arithmatex
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Architecture: architecture.md
-  - API Reference: api-reference.md
-  - Development: development.md
+  - Início: index.md
+  - Começando: getting-started.md
+  - Arquitetura: architecture.md
+  - Referência da API: api-reference.md
+  - Desenvolvimento: development.md
 
 strict: true

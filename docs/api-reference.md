@@ -1,43 +1,43 @@
-# API Reference
+# Referência da API
 
 ## OpenF1Client
 
-### Constructor
+### Construtor
 
 ```python
 OpenF1Client(base_url="https://api.openf1.org/v1", timeout=30)
 ```
 
-**Parameters:**
-- `base_url` (str): Base URL for OpenF1 API. Default: `https://api.openf1.org/v1`
-- `timeout` (int): Request timeout in seconds. Default: `30`
+**Parâmetros:**
+- `base_url` (str): URL base para a API OpenF1. Padrão: `https://api.openf1.org/v1`
+- `timeout` (int): Timeout da requisição em segundos. Padrão: `30`
 
-**Returns:** `OpenF1Client` instance
+**Retorna:** Instância de `OpenF1Client`
 
-### Methods
+### Métodos
 
 #### `get_meetings(year=None, **filters) -> list[dict]`
 
-Get Formula 1 meetings (races, testing, etc.).
+Obtenha reuniões de Fórmula 1 (corridas, testes, etc.).
 
-**Parameters:**
-- `year` (int, optional): Filter by year (e.g., 2024)
-- `**filters`: Additional query parameters passed to the API
+**Parâmetros:**
+- `year` (int, opcional): Filtrar por ano (ex: 2024)
+- `**filters`: Parâmetros de consulta adicionais passados para a API
 
-**Returns:** List of meeting dictionaries
+**Retorna:** Lista de dicionários de reunião
 
-**Example:**
+**Exemplo:**
 ```python
 client = OpenF1Client()
 
-# All meetings
+# Todas as reuniões
 all_meetings = client.get_meetings()
 
-# Meetings for 2024
+# Reuniões de 2024
 meetings_2024 = client.get_meetings(year=2024)
 ```
 
-**Response Example:**
+**Exemplo de Resposta:**
 ```python
 {
     "meeting_key": 1204,
@@ -53,20 +53,20 @@ meetings_2024 = client.get_meetings(year=2024)
 
 #### `get_sessions(year=None, **filters) -> list[dict]`
 
-Get Formula 1 sessions (practice, qualifying, race).
+Obtenha sessões de Fórmula 1 (prática, qualificação, corrida).
 
-**Parameters:**
-- `year` (int, optional): Filter by year
-- `**filters`: Additional query parameters
+**Parâmetros:**
+- `year` (int, opcional): Filtrar por ano
+- `**filters`: Parâmetros de consulta adicionais
 
-**Returns:** List of session dictionaries
+**Retorna:** Lista de dicionários de sessão
 
-**Example:**
+**Exemplo:**
 ```python
-# Sessions for 2024
+# Sessões para 2024
 sessions_2024 = client.get_sessions(year=2024)
 
-# Sessions by meeting key
+# Sessões por chave de reunião
 sessions = client.get_sessions(meeting_key=1204)
 ```
 
@@ -74,17 +74,17 @@ sessions = client.get_sessions(meeting_key=1204)
 
 #### `get_drivers(session_key, **filters) -> list[dict]`
 
-Get drivers participating in a session.
+Obtenha pilotos participantes em uma sessão.
 
-**Parameters:**
-- `session_key` (int): Session key (required)
-- `**filters`: Additional query parameters
+**Parâmetros:**
+- `session_key` (int): Chave da sessão (obrigatório)
+- `**filters`: Parâmetros de consulta adicionais
 
-**Returns:** List of driver dictionaries
+**Retorna:** Lista de dicionários de piloto
 
-**Example:**
+**Exemplo:**
 ```python
-# Drivers in session 9158
+# Pilotos na sessão 9158
 drivers = client.get_drivers(session_key=9158)
 
 for driver in drivers:
@@ -95,66 +95,66 @@ for driver in drivers:
 
 #### `get_laps(session_key, **filters) -> list[dict]`
 
-Get lap times for a session.
+Obtenha tempos de volta para uma sessão.
 
-**Parameters:**
-- `session_key` (int): Session key (required)
-- `**filters`: Additional query parameters (e.g., `driver_number=63`)
+**Parâmetros:**
+- `session_key` (int): Chave da sessão (obrigatório)
+- `**filters`: Parâmetros de consulta adicionais (ex: `driver_number=63`)
 
-**Returns:** List of lap dictionaries
+**Retorna:** Lista de dicionários de volta
 
-**Example:**
+**Exemplo:**
 ```python
-# All laps in session 9161
+# Todas as voltas na sessão 9161
 laps = client.get_laps(session_key=9161)
 
-# Laps for driver #63
+# Voltas do piloto #63
 driver_laps = client.get_laps(session_key=9161, driver_number=63)
 
-# Check lap times
+# Verificar tempos de volta
 for lap in driver_laps[:5]:
-    print(f"Lap {lap['lap_number']}: {lap['duration_seconds']}s")
+    print(f"Volta {lap['lap_number']}: {lap['duration_seconds']}s")
 ```
 
 ---
 
 #### `get_car_data(session_key, **filters) -> list[dict]`
 
-Get car telemetry/data for a session.
+Obtenha telemetria/dados do carro para uma sessão.
 
-**Parameters:**
-- `session_key` (int): Session key (required)
-- `**filters`: Additional query parameters
+**Parâmetros:**
+- `session_key` (int): Chave da sessão (obrigatório)
+- `**filters`: Parâmetros de consulta adicionais
 
-**Returns:** List of car data dictionaries
+**Retorna:** Lista de dicionários de dados do carro
 
-**Example:**
+**Exemplo:**
 ```python
-# Car data for session 9161
+# Dados do carro para a sessão 9161
 car_data = client.get_car_data(session_key=9161)
 
-# Filter by driver
+# Filtrar por piloto
 driver_data = client.get_car_data(session_key=9161, driver_number=63)
 ```
 
 ---
 
-## Exceptions
+## Exceções
 
 ### OpenF1Error
 
-Base exception for all F1 library errors.
+Exceção base para todos os erros da biblioteca F1.
 
 ```python
 try:
     client.get_meetings()
 except OpenF1Error as e:
-    print(f"Error: {e}")
+    print(f"Erro: {e}")
 ```
 
 ### NetworkError
 
-Raised for connection/timeout errors.
+Levantada para erros de conexão/timeout.
 
 ```python
 from f1.exceptions import NetworkError
@@ -162,12 +162,12 @@ from f1.exceptions import NetworkError
 try:
     client.get_meetings()
 except NetworkError as e:
-    print(f"Connection failed: {e}")
+    print(f"Falha na conexão: {e}")
 ```
 
 ### APIError
 
-Raised for API errors (4xx/5xx).
+Levantada para erros de API (4xx/5xx).
 
 ```python
 from f1.exceptions import APIError
@@ -175,12 +175,12 @@ from f1.exceptions import APIError
 try:
     client.get_drivers(session_key=999999)
 except APIError as e:
-    print(f"API error: {e}")
+    print(f"Erro na API: {e}")
 ```
 
 ### NotFoundError
 
-Raised for 404 Not Found responses.
+Levantada para respostas 404 Not Found.
 
 ```python
 from f1.exceptions import NotFoundError
@@ -188,36 +188,36 @@ from f1.exceptions import NotFoundError
 try:
     client.get_drivers(session_key=999999)
 except NotFoundError as e:
-    print(f"Resource not found: {e}")
+    print(f"Recurso não encontrado: {e}")
 ```
 
 ---
 
-## Common Filters
+## Filtros Comuns
 
-Many methods accept `**filters` for query parameters:
+Muitos métodos aceitam `**filters` para parâmetros de consulta:
 
 ```python
-# Year filter
+# Filtro de ano
 client.get_meetings(year=2024)
 
-# Driver filter
+# Filtro de piloto
 client.get_laps(session_key=9158, driver_number=63)
 
-# Limit results (API-specific)
+# Limitar resultados (específico da API)
 client.get_meetings(limit=5)
 ```
 
-Refer to [OpenF1 API documentation](https://www.openf1.org/) for all available filters.
+Consulte a [documentação da API OpenF1](https://www.openf1.org/) para todos os filtros disponíveis.
 
 ---
 
 ## Timeouts
 
-Customize request timeout globally:
+Customize o timeout de requisição globalmente:
 
 ```python
-client = OpenF1Client(timeout=60)  # 60 second timeout
+client = OpenF1Client(timeout=60)  # Timeout de 60 segundos
 ```
 
-The default timeout is 30 seconds. Increase for slow connections or large responses.
+O timeout padrão é 30 segundos. Aumente para conexões lentas ou respostas grandes.

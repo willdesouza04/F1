@@ -1,81 +1,81 @@
-# Getting Started
+# Começando
 
-## Requirements
+## Requisitos
 
-- **Python 3.13+** (check with `python --version`)
-- `pip` or `poetry` for package management
+- **Python 3.13+** (verifique com `python --version`)
+- `pip` ou `poetry` para gerenciamento de pacotes
 
-## Installation
+## Instalação
 
-### Using pip
+### Usando pip
 
 ```bash
 pip install f1
 ```
 
-### Using Poetry
+### Usando Poetry
 
 ```bash
 poetry add f1
 ```
 
-## First Query
+## Primeira Consulta
 
-### Library Usage
+### Uso da Biblioteca
 
 ```python
 from f1 import OpenF1Client
 
-# Create a client (uses https://api.openf1.org/v1 by default)
+# Crie um cliente (usa https://api.openf1.org/v1 por padrão)
 client = OpenF1Client()
 
-# Get all meetings for a year
+# Obtenha todas as reuniões de um ano
 meetings = client.get_meetings(year=2024)
-print(f"Found {len(meetings)} meetings in 2024")
+print(f"Encontradas {len(meetings)} reuniões em 2024")
 
-# Get drivers for a specific session
+# Obtenha pilotos para uma sessão específica
 drivers = client.get_drivers(session_key=9158)
 for driver in drivers:
     print(f"  - {driver['first_name']} {driver['last_name']} (#{driver['driver_number']})")
 ```
 
-### CLI Usage
+### Uso da CLI
 
 ```bash
-# List meetings for 2024
+# Listar reuniões de 2024
 f1 meetings --year 2024
 
-# List drivers in a session
+# Listar pilotos em uma sessão
 f1 drivers --session 9158
 
-# List laps for a driver
+# Listar voltas para um piloto
 f1 laps --session 9161 --driver 63 --limit 10
 
-# Output as JSON
+# Saída em JSON
 f1 meetings --year 2024 --format json
 ```
 
-## Next Steps
+## Próximos Passos
 
-- Read the [API Reference](api-reference.md) for all available endpoints
-- Check [Architecture](architecture.md) to understand the code structure
-- See [Development](development.md) for contributing or customizing
+- Leia a [Referência da API](api-reference.md) para todos os endpoints disponíveis
+- Verifique [Arquitetura](architecture.md) para entender a estrutura do código
+- Veja [Desenvolvimento](development.md) para contribuir ou personalizar
 
-## Troubleshooting
+## Solução de Problemas
 
 ### ModuleNotFoundError: No module named 'f1'
 
-Ensure the package is installed:
+Certifique-se de que o pacote está instalado:
 ```bash
 pip install f1
-# or
+# ou
 poetry add f1
 ```
 
-### Connection errors
+### Erros de conexão
 
-Verify internet connectivity and that [api.openf1.org](https://api.openf1.org) is reachable.
+Verifique a conectividade com a internet e se [api.openf1.org](https://api.openf1.org) está acessível.
 
-### Invalid session_key
+### session_key inválida
 
-Session keys are numbers specific to meetings. Use `f1 meetings` to find valid session keys for a year.
+As chaves de sessão são números específicos para reuniões. Use `f1 meetings` para encontrar chaves de sessão válidas para um ano.
