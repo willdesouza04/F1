@@ -1,0 +1,40 @@
+site_name: Cliente de Dados F1
+site_description: Cliente Python e CLI para API OpenF1
+site_author: William Lacerda de Souza
+
+theme:
+  name: material
+  palette:
+    - scheme: light
+      primary: blue
+      accent: blue
+    - scheme: dark
+      primary: blue
+      accent: blue
+  features:
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - pymdownx.arithmatex
+
+nav:
+  - Início: index.md
+  - Começando: getting-started.md
+  - Arquitetura: architecture.md
+  - Referência da API: api-reference.md
+  - Desenvolvimento: development.md
+
+strict: true

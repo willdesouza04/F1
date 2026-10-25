@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Analytics - Tempos de Volta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff6b00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #ff6b00;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:hover {
+            border-color: rgba(255, 165, 0, 0.7);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #ff6b00;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        option {
+            background: #16213e;
+            color: #fff;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 165, 0, 0.2);
+            border-top: 4px solid #ff6b00;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .meeting-info {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ff6b00;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+        }
+
+        .meeting-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #ffa500;
+            margin-bottom: 5px;
+        }
+
+        .session-info {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #ffa500;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background: rgba(255, 165, 0, 0.1);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #ffa500;
+            border-bottom: 2px solid rgba(255, 165, 0, 0.3);
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ddd;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 165, 0, 0.05);
+        }
+
+        .rank {
+            font-weight: 700;
+            color: #ffa500;
+            text-align: center;
+            width: 50px;
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .driver-number {
+            background: linear-gradient(135deg, #ff6b00, #ffa500);
+            color: #000;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .driver-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .team-name {
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
+        .fastest {
+            background: rgba(0, 255, 0, 0.1) !important;
+            font-weight: 700;
+            color: #00ff00;
+        }
+
+        .time {
+            font-family: "Courier New", monospace;
+            font-weight: 600;
+            color: #ffa500;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9em;
+            }
+
+            .driver-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏁 F1 Analytics</h1>
+            <p class="subtitle">Tempos de Volta - Fórmula 1</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="year">Ano</label>
+                <select id="year" onchange="fetchMeetings()">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="meeting">Reunião / GP</label>
+                <select id="meeting" onchange="fetchSessions()">
+                    <option value="">Selecione uma reunião...</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="session">Sessão</label>
+                <select id="session" onchange="fetchLaps()">
+                    <option value="">Selecione uma sessão...</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Carregando dados...</p>
+        </div>
+
+        <div id="results" style="display: none;">
+            <div class="results">
+                <div id="meetingInfo"></div>
+
+                <div class="stats" id="stats"></div>
+
+                <table id="lapsTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 50px;">Pos</th>
+                            <th>Piloto</th>
+                            <th style="text-align: center;">Volta</th>
+                            <th style="text-align: right;">Tempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lapsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="noData" class="results no-data" style="display: none;">
+            Selecione uma reunião e sessão para ver os tempos de volta
+        </div>
+    </div>
+
+    <script>
+        let meetings = [];
+        let sessions = [];
+        let laps = [];
+
+        // Format seconds to MM:SS.mmm
+        function formatTime(seconds) {
+            if (!seconds || seconds <= 0) return '-';
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes}:${secs.toFixed(3).padStart(7, '0')}`;
+        }
+
+        // Initialize
+        async function init() {
+            await fetchMeetings();
+        }
+
+        async function fetchMeetings() {
+            const year = document.getElementById('year').value;
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+
+            errorDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/meetings?year=${year}`);
+                meetings = await response.json();
+
+                const meetingSelect = document.getElementById('meeting');
+                meetingSelect.innerHTML = '<option value="">Selecione uma reunião...</option>';
+
+                meetings.forEach(m => {
+                    const option = document.createElement('option');
+                    option.value = m.meeting_key;
+                    option.textContent = `${m.meeting_name} (${m.location})`;
+                    meetingSelect.appendChild(option);
+                });
+
+                loadingDiv.style.display = 'none';
+                document.getElementById('session').innerHTML = '<option value="">Selecione uma sessão...</option>';
+                hideResults();
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = `Erro ao carregar reuniões: ${error.message}`;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function fetchSessions() {
+            const meetingKey = document.getElementById('meeting').value;
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+
+            if (!meetingKey) {
+                hideResults();
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/sessions/${meetingKey}`);
+                sessions = await response.json();
+
+                const sessionSelect = document.getElementById('session');
+                sessionSelect.innerHTML = '<option value="">Selecione uma sessão...</option>';
+
+                sessions.forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s.session_key;
+                    option.textContent = `${s.session_name} (${new Date(s.date_start).toLocaleDateString('pt-BR')})`;
+                    sessionSelect.appendChild(option);
+                });
+
+                loadingDiv.style.display = 'none';
+                hideResults();
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = `Erro ao carregar sessões: ${error.message}`;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function fetchLaps() {
+            const sessionKey = document.getElementById('session').value;
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+
+            if (!sessionKey) {
+                hideResults();
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/laps/${sessionKey}`);
+                laps = await response.json();
+
+                if (laps.length === 0) {
+                    loadingDiv.style.display = 'none';
+                    hideResults();
+                    return;
+                }
+
+                displayLaps(laps);
+                loadingDiv.style.display = 'none';
+                showResults();
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = `Erro ao carregar voltas: ${error.message}`;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function displayLaps(lapsData) {
+            const tbody = document.getElementById('lapsBody');
+            const statsDiv = document.getElementById('stats');
+            const meetingSelect = document.getElementById('meeting');
+            const sessionSelect = document.getElementById('session');
+
+            tbody.innerHTML = '';
+            statsDiv.innerHTML = '';
+
+            // Find meeting and session info
+            const meetingKey = parseInt(document.getElementById('meeting').value);
+            const sessionKey = parseInt(document.getElementById('session').value);
+            const meeting = meetings.find(m => m.meeting_key === meetingKey);
+            const session = sessions.find(s => s.session_key === sessionKey);
+
+            // Meeting info
+            if (meeting && session) {
+                document.getElementById('meetingInfo').innerHTML = `
+                    <div class="meeting-name">${meeting.meeting_name}</div>
+                    <div class="session-info">${session.session_name} • ${meeting.location} • ${new Date(session.date_start).toLocaleDateString('pt-BR')}</div>
+                `;
+            }
+
+            // Filter valid laps (with duration_seconds)
+            const validLaps = lapsData.filter(l => l.duration_seconds);
+
+            if (validLaps.length === 0) {
+                document.getElementById('meetingInfo').innerHTML = '<div class="meeting-name">Sem dados de tempos</div>';
+                return;
+            }
+
+            // Calculate stats
+            const uniqueDrivers = new Set(validLaps.map(l => l.driver_number)).size;
+            const fastestLap = Math.min(...validLaps.map(l => l.duration_seconds));
+            const avgTime = (validLaps.reduce((s, l) => s + (l.duration_seconds || 0), 0) / validLaps.length).toFixed(3);
+
+            // Count laps per driver to find winner
+            const lapsByDriver = {};
+            validLaps.forEach(lap => {
+                const driver = lap.driver_number;
+                lapsByDriver[driver] = (lapsByDriver[driver] || 0) + 1;
+            });
+            const winnerLaps = Math.max(...Object.values(lapsByDriver));
+
+            // Stats cards
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${winnerLaps}</div>
+                    <div class="stat-label">Voltas do Vencedor</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${uniqueDrivers}</div>
+                    <div class="stat-label">Pilotos Participantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${formatTime(fastestLap)}</div>
+                    <div class="stat-label">Volta Mais Rápida</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${formatTime(parseFloat(avgTime))}</div>
+                    <div class="stat-label">Tempo Médio</div>
+                </div>
+            `;
+
+            // Group by driver and get best lap
+            const driverBestLaps = {};
+            validLaps.forEach(lap => {
+                const driver = lap.driver_number;
+                if (!driverBestLaps[driver] || (lap.duration_seconds && lap.duration_seconds < driverBestLaps[driver].duration_seconds)) {
+                    driverBestLaps[driver] = lap;
+                }
+            });
+
+            // Sort by fastest time and create ranking
+            const ranking = Object.values(driverBestLaps)
+                .sort((a, b) => a.duration_seconds - b.duration_seconds)
+                .map((lap, index) => ({...lap, position: index + 1}));
+
+            // Display ranking
+            ranking.forEach(lap => {
+                const row = document.createElement('tr');
+                if (lap.duration_seconds === fastestLap) {
+                    row.classList.add('fastest');
+                }
+
+                row.innerHTML = `
+                    <td class="rank">${lap.position}</td>
+                    <td>
+                        <div class="driver-info">
+                            <div class="driver-number">${lap.driver_number}</div>
+                            <div>
+                                <div class="driver-name">${lap.driver_name || 'Unknown'}</div>
+                                <div class="team-name">${lap.team_name || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="text-align: center;">#${lap.lap_number}</td>
+                    <td style="text-align: right;"><span class="time">${formatTime(lap.duration_seconds)}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function showResults() {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('noData').style.display = 'none';
+        }
+
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('noData').style.display = 'block';
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
